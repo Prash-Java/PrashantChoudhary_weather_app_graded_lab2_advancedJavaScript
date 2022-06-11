@@ -5,7 +5,7 @@ var descrip = document.querySelector('#description');
 var temp = document.querySelector('#temp');
 var wind = document.querySelector('#wind');
 
-apik = "b858783764b38cc8140fee1b3ac3f1d1";
+apik = "Please provide any valid API Account To Replace In fetch(); I have tested this with my API Key from my end";
 
 function convertion(val) {
     return (val - 273).toFixed(2)
