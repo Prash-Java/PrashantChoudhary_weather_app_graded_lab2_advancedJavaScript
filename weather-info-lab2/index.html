@@ -3,27 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="index.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather app</title>
+    <link rel="stylesheet" href="index.css" />
 </head>
 
 <body>
-    <div class="container-fluid">
-        <section class="main"></section>
-        <section class="inputs">
-            <input type="text" placeholder="Enter any city..." id="cityinput">
-            <input type="submit" value="Submit" id="add">
-        </section>
-        <section class="display">
-            <div class="wrapper">
-                <h2 id="cityoutput"></h2>
-                <p id="description"></p>
-                <p id="temp"></p>
-                <p id="wind"></p>
+    <div class="app-wrap">
+        <header>
+            <input type="text" autocomplete="on" class="search-box" placeholder="Search for a city..." />
+        </header>
+        <main>
+            <section class="location">
+                <div class="city">New Delhi ,India</div>
+                <div class="date">Thursday 4 March 2022</div>
+            </section>
+            <div class="current">
+                <div class="temp">15<span>°c</span></div>
+                <div class="weather">Sunny</div>
+                <div class="hi-low">18°c / 22°c</div>
             </div>
-        </section>
+        </main>
     </div>
     <script src="index.js"></script>
 </body>
