@@ -1,30 +1,52 @@
-var inputval = document.querySelector('#cityinput');
-var btn = document.querySelector('#add');
-var city = document.querySelector('#cityoutput');
-var descrip = document.querySelector('#description');
-var temp = document.querySelector('#temp');
-var wind = document.querySelector('#wind');
+const appid = '7e3f21edee540e6110af347b55eb1ab2';
+const baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
-apik = "Please provide any valid API Account To Replace In fetch(); I have tested this with my API Key from my end";
+function getWeather(city) {
+    fetch(`${baseUrl}?q=${city}&appid=${appid}&units=metric`)
+        .then(response => {
+            console.log(response);
 
-function convertion(val) {
-    return (val - 273).toFixed(2)
-};
+            // throw error if server returns 4xx response
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
 
-btn.addEventListener('click', function () {
-    fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputval.value + '&appid=' + apik)
-        .then(res => res.json())
-        .then(data => {
-            var nameval = data['name']
-            var descrip = data['weather']['0']['description']
-            var tempature = data['main']['temp']
-            var wndspd = data['wind']['speed']
-
-            city.innerHTML = `Weather of <span>${nameval}<span>`
-            temp.innerHTML = `Temperature: <span>${convertion(tempature)} C</span>`
-            description.innerHTML = `Sky Conditions: <span>${descrip}<span>`
-            wind.innerHTML = `Wind Speed: <span>${wndspd} km/h<span>`
-
+            return response.json();
         })
-        .catch(err => alert('Please Enter Correct City Name'))
+        .then(data => {
+            console.log(data);
+
+            // display weather data
+            showWeather(data);
+        })
+        .catch(error => console.log(error.message));
+}
+
+getWeather('Bangalore');
+
+function showWeather(data) {
+    const city = document.querySelector('.city');
+    const date = document.querySelector('.date');
+    const temp = document.querySelector('.temp');
+    const weather = document.querySelector('.weather');
+    const hilow = document.querySelector('.hi-low');
+
+    city.textContent = data.name;
+    date.textContent = getFormattedDate(new Date(data.dt * 1000));
+    temp.innerHTML = `${data.main.temp} <span>°c</span>`;
+    weather.textContent = data.weather[0].main;
+    hilow.textContent = `${data.main.temp_min} °c / ${data.main.temp_max} °c`;
+}
+
+function getFormattedDate(date) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+document.querySelector('.search-box').addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+        getWeather(this.value);
+    }
 });
